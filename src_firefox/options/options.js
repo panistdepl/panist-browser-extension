@@ -99,7 +99,7 @@ $(document).ready(function () {
   });
 
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", "https://panistdepl.github.io/panist-browser-extension/19.11.18_listeInstitutions.json?date=" + Date.now(), true);
+  xhr.open("GET", "https://panistdepl.github.io/browser-extension/22.11.18_11:28:10_listeInstitutions.json?date=" + Date.now(), true);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
       var data = JSON.parse(xhr.responseText)

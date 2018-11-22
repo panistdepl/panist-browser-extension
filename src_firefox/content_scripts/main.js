@@ -497,7 +497,6 @@ PANISTLinkInserter = {
             }
             var responseUrl = jqXHR.responseJSON.resourceUrl;
             if (responseUrl != undefined)
-              responseUrl += "&grantee=" + idc;
             localStorage.setItemOrClear(key, responseUrl || NOT_AVAILABLE);
           }
 

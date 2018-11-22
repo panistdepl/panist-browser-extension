@@ -1,7 +1,7 @@
 {
-  "name": "istex-web-extension",
+  "name": "panist-web-extension",
   "version": "1.0.0",
-  "description": "An add-on for identifying ISTEX resources in the browser pages",
+  "description": "An add-on for identifying PANIST resources in the browser pages",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,18 +10,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/istex/istex-web-extension.git"
+    "url": "git+https://github.com/panist/panist-web-extension.git"
   },
   "keywords": [
-    "Istex",
+    "Panist",
     "web-extension"
   ],
-  "author": "Istex",
+  "author": "Panist",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/istex/istex-web-extension/issues"
+    "url": "https://github.com/panist/panist-web-extension/issues"
   },
-  "homepage": "https://github.com/istex/istex-web-extension#readme",
+  "homepage": "https://github.com/panist/panist-web-extension#readme",
   "dependencies": {},
   "devDependencies": {
     "web-ext": "^1.8.1"

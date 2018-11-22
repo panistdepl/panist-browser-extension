@@ -1,4 +1,4 @@
-# istex-web-extension's Makefile
+# panist-web-extension's Makefile
 
 SHELL:=/bin/bash
 

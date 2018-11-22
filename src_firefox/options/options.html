@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <title>PANIST Options</title>
+  <link rel="stylesheet" href="/options/bootstrap.min.css">
+  <link rel="stylesheet" href="/options/select2.min.css" />
+</head>
+
+<body>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Activer la bibliothèque PANIST pour Google Scholar ?</h5>
+      </div>
+      <div class="modal-body">
+        <p style="text-align: justify">Si vous utilisez Google Scholar, vous pouvez installer de manière automatique la
+          bibliothèque PANIST. Ceci
+          vous permettra de pouvoir consulter les documents de la base PANIST directement dans vos résultats de
+          recherche. L'installation ouvrira deux nouvelles fenêtres qui se fermeront automatiquement dès lors que
+          l'installation se termine..</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary accept">Oui</button>
+        <button type="button" class="btn btn-secondary skip">Passer</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-dialog" id="warningMsg">
+    <div class="alert alert-warning">
+      <strong>Attention !</strong> Vous devez sélectionner un établissement.
+    </div>
+  </div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Choisir un établissement</h5>
+      </div>
+      <div class="modal-body">
+        <select class="etabList" name="idc" style="width:100%">
+          <option></option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary chooseEtab">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+  <script src="/vendors/jquery.min.js"></script>
+  <script src="/options/bootstrap.min.js"></script>
+  <script src="/options/select2.min.js"></script>
+  <script src="/options/fr.js"></script>
+  <script src="/options/options.js"></script>
+</body>
+
+</html>

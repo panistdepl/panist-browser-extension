@@ -1,8 +1,8 @@
-# istex-web-extension
+# panist-web-extension
 
-A basic add-on for identifying dynamically ISTEX resources in the browser pages.
+A basic add-on for identifying dynamically PANIST resources in the browser pages.
 
-This extension is an adaptation of [istex-browser-addon](https://github.com/istex/istex-browser-addon), using "Web extensions" technology.
+This extension is an adaptation of [panist-browser-addon](https://github.com/panist/panist-browser-addon), using "Web extensions" technology.
 
 At the present time, 2 versions are available : one for Mozilla Firefox, the other for Google Chrome.
 
@@ -10,7 +10,7 @@ At the present time, 2 versions are available : one for Mozilla Firefox, the oth
 
 This add-on performs the following task:
 
-* Add an ISTEX button next to any DOI, OpenUrl and PMID found in the browser page in case the corresponding document is present in ISTEX, based on the ISTEX OpenURL service. Clicking on the ISTEX button will open a new tab with opening the corresponding PDF, assuming that the access to the ISTEX full-texts is authorized. 
+* Add an PANIST button next to any DOI, OpenUrl and PMID found in the browser page in case the corresponding document is present in PANIST, based on the PANIST OpenURL service. Clicking on the PANIST button will open a new tab with opening the corresponding PDF, assuming that the access to the PANIST full-texts is authorized. 
 
 ## Supported identifiers and protocols
 
@@ -34,9 +34,9 @@ Currently:
 
 ## How to install
 
-If you just want to install the extension, please visit https://addons.istex.fr and click on the big "Install" button.
+If you just want to install the extension, please visit https://addons.panist.fr and click on the big "Install" button.
 
-If you use Google Chrome, you can alose visit the [extension's homepage on the Chrome Web Store](https://chrome.google.com/webstore/detail/istex/fonjnfcanlbgnjgfhiocggldmpnhdhjg?hl=fr) and click on the "Add to Chrome" button.
+If you use Google Chrome, you can alose visit the [extension's homepage on the Chrome Web Store](https://chrome.google.com/webstore/detail/panist/fonjnfcanlbgnjgfhiocggldmpnhdhjg?hl=fr) and click on the "Add to Chrome" button.
 
 ## Developers
 
@@ -51,4 +51,4 @@ How to run the web extension in developer mode with firefox (you need to install
 npm i
 npm run run
 ``` 
-It will open firefox on this page https://en.wikipedia.org/wiki/Superfluid_helium-4 with the istex-web-extension loaded. 
+It will open firefox on this page https://en.wikipedia.org/wiki/Superfluid_helium-4 with the panist-web-extension loaded. 

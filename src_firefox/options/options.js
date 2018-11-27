@@ -85,16 +85,16 @@ chrome.webNavigation.onCompleted.addListener(listener, filter); */
 //END google scholar config---------------------------------------------------------------------------------//
 
 
-$(".chooseEtab").click(function() {
+$(".chooseEtab").click(function () {
   var value = $(".etabList").val();
-    var text = $(".etabList").select2('data')[0].text;
-    chrome.browserAction.setTitle({
-      title:'Votre établisssement est :\n' + text
-    });
-    chrome.storage.sync.set({ idc: {value:value,text:text} }, function () {
-    });
-    alert("Votre établissement est :\n" + $(".etabList").select2('data')[0].text);
-    $('#warningMsg').hide();
+  var text = $(".etabList").select2('data')[0].text;
+  browser.browserAction.setTitle({
+    title: 'Votre établisssement est :\n' + text
+  });
+  browser.storage.sync.set({ idc: { value: value, text: text } }, function () {
+  });
+  alert("Votre établissement est :\n" + $(".etabList").select2('data')[0].text);
+  $('#warningMsg').hide();
 });
 
 
@@ -102,12 +102,12 @@ $(".chooseEtab").click(function() {
 $(document).ready(function () {
   var text;
   var idc;
-  chrome.storage.sync.get(['idc'], function (result) {
-    text  = result.idc.text;
-    idc   = result.idc.value;
-    if (text != undefined) {
-      chrome.browserAction.setTitle({
-        title:'Votre établisssement est :\n' + text
+  browser.storage.sync.get(['idc'], function (result) {
+    if (result.idc != undefined) {
+      text = result.idc.text;
+      idc = result.idc.value;
+      browser.browserAction.setTitle({
+        title: 'Votre établisssement est :\n' + text
       });
       $('#warningMsg').hide();
     }

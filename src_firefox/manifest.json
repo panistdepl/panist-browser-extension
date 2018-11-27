@@ -1,7 +1,7 @@
 {
   "applications": {
     "gecko": {
-      "id": "istexwebextensionforreal@inist.fr",
+      "id": "mounir.bouri@esprit.tn",
       "strict_min_version": "49.0a2"
     }
   },
@@ -10,8 +10,8 @@
   "version": "1.0.0",
   "description": "An add-on for identifying PANIST resources in the browser pages",
   "icons": {
-    "16": "icons/panist-logo.png",
-    "48": "icons/panist-logo.png"
+    "16": "icons/panist-logo-16.png",
+    "48": "icons/panist-logo-48.png"
   },
   "permissions": [
     "<all_urls>",

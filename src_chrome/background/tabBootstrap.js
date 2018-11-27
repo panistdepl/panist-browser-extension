@@ -13,7 +13,8 @@ chrome.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {
     if (request.btnExist) {
       chrome.tabs.query({ active: true, windowType: "normal", currentWindow: true }, function (d) {
-        chrome.browserAction.setBadgeBackgroundColor({ color: "green", tabId: d[0].id });
+        chrome.browserAction.setBadgeText({ text: " ", tabId: d[0].id });
+        chrome.browserAction.setBadgeBackgroundColor({ color: "#28a745", tabId: d[0].id });
       })
     }
   });

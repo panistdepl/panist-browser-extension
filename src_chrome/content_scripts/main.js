@@ -2,8 +2,10 @@
 'use strict';
 var idc;
 chrome.storage.sync.get(['idc'], function (result) {
-  idc = result.idc;
+  idc = result.idc.value;
 });
+
+
 
 var config,
   PANISTLinkInserter,

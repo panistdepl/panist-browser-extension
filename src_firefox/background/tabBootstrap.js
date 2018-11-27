@@ -13,7 +13,8 @@ var whiteList = [
   function (request, sender, sendResponse) {
     if (request.btnExist) {
       browser.tabs.query({ active: true, windowType: "normal", currentWindow: true }, function (d) {
-        browser.browserAction.setBadgeBackgroundColor({ color: "green", tabId: d[0].id });
+        browser.browserAction.setBadgeText({ text: " ", tabId: d[0].id });
+        browser.browserAction.setBadgeBackgroundColor({ color: "#28a745", tabId: d[0].id });
       })
     }
   });

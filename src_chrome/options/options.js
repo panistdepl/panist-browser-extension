@@ -1,5 +1,7 @@
 'use strict';
 
+//BEGIN google scholar config-------------------------------------------------------------------------------//
+/*
 // if mode is not 0, we are in installation and mode gives the number of tabs opened with plugin install, 
 // otherwise mode is 0 and nothing shall be closed automatically to avoid an PANIST totalitarian behaviour
 var mode = 0;
@@ -38,16 +40,8 @@ document.addEventListener('click', (e) => {
 
       });
     });
-  };
-  if (e.target.classList.contains('chooseEtab')) {
-    var value = $(".etabList").val();
-    chrome.browserAction.setBadgeText({ text: value });
-    chrome.browserAction.setBadgeBackgroundColor({ color: "#6c757d" });
-    chrome.storage.sync.set({ idc: value }, function () {
-    });
-    alert("Votre établissement est :\n" + $(".etabList").select2('data')[0].text);
-    $('#warningMsg').hide();
 
+    httpGet('https://scholar.google.com/scholar_setprefs?instq=istex&inst=2733342842941555958&save=1');
   };
   if (e.target.classList.contains('skip')) {
     console.log('Passer');
@@ -56,7 +50,6 @@ document.addEventListener('click', (e) => {
     });
   };
 });
-
 var filter = {
   url: [{
     hostContains: "scholar.google"
@@ -86,37 +79,53 @@ var listener = function (details) {
     }
   }
 };
+
+chrome.webNavigation.onCompleted.addListener(listener, filter); */
+
+//END google scholar config---------------------------------------------------------------------------------//
+
+
+$(".chooseEtab").click(function () {
+  var value = $(".etabList").val();
+  var text = $(".etabList").select2('data')[0].text;
+  chrome.browserAction.setTitle({
+    title: 'Votre établisssement est :\n' + text
+  });
+  chrome.storage.sync.set({ idc: { value: value, text: text } }, function () {
+  });
+  alert("Votre établissement est :\n" + $(".etabList").select2('data')[0].text);
+  $('#warningMsg').hide();
+});
+
+
+
 $(document).ready(function () {
+  
+  var text;
   var idc;
   chrome.storage.sync.get(['idc'], function (result) {
-    idc = result.idc;
-    console.log("l'idc est : " + result.idc);
-    if (idc != undefined) {
-      chrome.browserAction.setBadgeText({ text: idc });
-      chrome.browserAction.setBadgeBackgroundColor({ color: "#6c757d" });
+    text = result.idc.text;
+    idc = result.idc.value;
+    if (text != undefined) {
+      chrome.browserAction.setTitle({
+        title: 'Votre établisssement est :\n' + text
+      });
       $('#warningMsg').hide();
     }
   });
 
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "https://panistdepl.github.io/browser-extension/22.11.18_11:28:10_listeInstitutions.json?date=" + Date.now(), true);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      var data = JSON.parse(xhr.responseText)
-      $('.etabList').select2({
-        data: data,
-        language: "fr",
-        placeholder: "Sélectionner le nom de votre établissement"
-      });
-      if (idc != undefined) {
-        $('.etabList').val(idc).trigger('change');
-
-      }
+  $.ajax({
+    url: "https://panistdepl.github.io/browser-extension/22.11.18_11:28:10_listeInstitutions.json?date=" + Date.now()
+  }).then(function (data) {
+    $('.etabList').select2({
+      data: data,
+      language: "fr",
+      placeholder: "Sélectionner le nom de votre établissement"
+    });
+    if (idc != undefined) {
+      $('.etabList').val(idc).trigger('change');
     }
-  }
-  xhr.send();
-
+  });
 });
 
 
-chrome.webNavigation.onCompleted.addListener(listener, filter);

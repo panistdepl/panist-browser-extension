@@ -2,7 +2,7 @@
 'use strict';
 var idc;
 browser.storage.sync.get(['idc'], function (result) {
-  idc = result.idc;
+  idc = result.idc.value;
 });
 
 var config,

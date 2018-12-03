@@ -1,4 +1,5 @@
 'use strict';
+var browser = chrome || browser;
 var whiteList = [
   'scholar.google.*',
   '*.wikipedia.org',
@@ -9,7 +10,7 @@ var whiteList = [
   ;
 
 
-  browser.runtime.onMessage.addListener(
+browser.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {
     if (request.btnExist) {
       browser.tabs.query({ active: true, windowType: "normal", currentWindow: true }, function (d) {
@@ -17,17 +18,24 @@ var whiteList = [
         browser.browserAction.setBadgeBackgroundColor({ color: "#28a745", tabId: d[0].id });
       })
     }
+    if (request.txtExist) {
+      browser.tabs.query({ active: true, windowType: "normal", currentWindow: true }, function (d) {
+        browser.browserAction.setTitle({
+          title: 'Votre établisssement est :\n' + request.txtExist, tabId: d[0].id 
+        });
+      })
+    }
   });
-  browser.runtime.onConnect.addListener(function (port) {
+browser.runtime.onConnect.addListener(function (port) {
 
   port.onMessage.addListener(function (page) {
-
+    
     if (!isContentTypeAllowed(page.contentType)
       || !isWhiteListed(port.sender.url)
     ) return;
     browser.tabs.executeScript(port.sender.tab.id, { file: '/vendors/jquery.min.js' });
     browser.tabs.executeScript(port.sender.tab.id, { file: '/vendors/lz-string.js' });
-    browser.tabs.executeScript(port.sender.tab.id, { file: '/content_scripts/log.js' });
+    //browser.tabs.executeScript(port.sender.tab.id, { file: '/content_scripts/log.js' });
     browser.tabs.executeScript(port.sender.tab.id, { file: '/content_scripts/storage.js' });
     browser.tabs.executeScript(port.sender.tab.id, { file: '/content_scripts/main.js' });
   });
@@ -38,7 +46,7 @@ var whiteList = [
 
 
 browser.browserAction.onClicked.addListener(function (tab) {
-  var creating = browser.tabs.create({ url: browser.runtime.getURL('options/options.html') });
+  var creating = browser.tabs.create({ url: browser.runtime.getURL('options/options.html')});
 });
 
 

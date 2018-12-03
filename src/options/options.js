@@ -1,4 +1,5 @@
 'use strict';
+var browser = chrome || browser;
 
 //BEGIN google scholar config-------------------------------------------------------------------------------//
 /*
@@ -15,7 +16,7 @@ document.addEventListener('click', (e) => {
 
     mode = 2;
 
-    chrome.tabs.query({ currentWindow: true, active: true }, function (optionTab) {
+    browser.tabs.query({ currentWindow: true, active: true }, function (optionTab) {
       optionsTabId = optionTab[0].id;
 
       $.ajax({
@@ -27,12 +28,12 @@ document.addEventListener('click', (e) => {
         panistLibraryId = doc.getElementsByName('inst')[0].value;
         console.log(panistLibraryId);
 
-        chrome.tabs.create({
+        browser.tabs.create({
           //url: "https://scholar.google.fr/scholar_setprefs?sciifh=1&inststart=0&num=10&scis=no&scisf=4&instq=panist&inst=3094930661629783031&context=panist&save=#2"
           url: "https://scholar.google.fr/scholar_setprefs?instq=istex&inst=" + panistLibraryId + "&ctxt=istex&save=#2"
         });
 
-        chrome.tabs.create({
+        browser.tabs.create({
           //url: "https://scholar.google.fr/scholar_setprefs?sciifh=1&inststart=0&num=10&scis=no&scisf=4&instq=panist&inst=3094930661629783031&context=panist&save=#2"
           url: "https://scholar.google.com/scholar_setprefs?instq=istex&inst=" + panistLibraryId + "&ctxt=istex&save=#2"
         });
@@ -45,8 +46,8 @@ document.addEventListener('click', (e) => {
   };
   if (e.target.classList.contains('skip')) {
     console.log('Passer');
-    chrome.tabs.query({ currentWindow: true, active: true }, function (tab) {
-      chrome.tabs.remove(tab[0].id);
+    browser.tabs.query({ currentWindow: true, active: true }, function (tab) {
+      browser.tabs.remove(tab[0].id);
     });
   };
 });
@@ -62,7 +63,7 @@ var listener = function (details) {
   // First time, we save
   if (scholarTabsIds.indexOf(details.tabId) === -1) {
     console.log('Complete ' + details.tabId);
-    chrome.tabs.executeScript(details.tabId, {
+    browser.tabs.executeScript(details.tabId, {
       code: 'document.getElementsByName("save")[0].click();'
     }, function (result) {
       console.log('Script OK');
@@ -71,16 +72,16 @@ var listener = function (details) {
   } else {
     // Second time, we close
     console.log('AfterSave ' + details.tabId);
-    chrome.tabs.remove(details.tabId);
+    browser.tabs.remove(details.tabId);
     mode--;
     if (mode === 0) {
-      chrome.webNavigation.onCompleted.removeListener(listener);
-      chrome.tabs.remove(optionsTabId);
+      browser.webNavigation.onCompleted.removeListener(listener);
+      browser.tabs.remove(optionsTabId);
     }
   }
 };
 
-chrome.webNavigation.onCompleted.addListener(listener, filter); */
+browser.webNavigation.onCompleted.addListener(listener, filter); */
 
 //END google scholar config---------------------------------------------------------------------------------//
 
@@ -88,26 +89,32 @@ chrome.webNavigation.onCompleted.addListener(listener, filter); */
 $(".chooseEtab").click(function () {
   var value = $(".etabList").val();
   var text = $(".etabList").select2('data')[0].text;
-  chrome.browserAction.setTitle({
+  browser.browserAction.setTitle({
     title: 'Votre établisssement est :\n' + text
   });
-  chrome.storage.sync.set({ idc: { value: value, text: text } }, function () {
+  browser.storage.sync.set({ idc: { value: value, text: text } }, function () {
   });
-  alert("Votre établissement est :\n" + $(".etabList").select2('data')[0].text);
-  $('#warningMsg').hide();
+  if (
+    confirm("Votre établissement est :\n" + $(".etabList").select2('data')[0].text)) {
+    $('#warningMsg').hide();
+    browser.tabs.getCurrent(function (tab) {
+      browser.tabs.remove(tab.id, function () { });
+    });
+  }
 });
 
 
 
 $(document).ready(function () {
-  
   var text;
   var idc;
-  chrome.storage.sync.get(['idc'], function (result) {
+  browser.storage.sync.get(['idc'], function (result) {
+    if (result.idc == undefined)
+      return;
     text = result.idc.text;
     idc = result.idc.value;
     if (text != undefined) {
-      chrome.browserAction.setTitle({
+      browser.browserAction.setTitle({
         title: 'Votre établisssement est :\n' + text
       });
       $('#warningMsg').hide();

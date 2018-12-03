@@ -1,8 +1,16 @@
 /* globals LZString, warn, error, debug, logXhrError */
 'use strict';
+var browser = chrome || browser;
 var idc;
+var text;
 browser.storage.sync.get(['idc'], function (result) {
-  idc = result.idc.value;
+  idc  = result.idc.value;
+  text = result.idc.text;
+  if (text != undefined) {
+    browser.runtime.sendMessage({
+      txtExist: text
+    });
+  }
 });
 
 var config,
@@ -51,15 +59,15 @@ const forbidenElements = ['applet',
   'rect'];
 
 config = {
-  panistBaseURL: 'http://vd-panist-api.intra.inist.fr:63332/document/openurl',
+  panistBaseURL: 'https://api.panist.fr/document/openurl',
   maxPageLinks: 2500,
-  mustDebug: false
+  //mustDebug: false
 };
 
 PANISTLinkInserter = {
   // OpenURL static info
   openUrlVersion: 'Z39.88-2004',
-  openURLPrefix: 'http://vd-panist-api.intra.inist.fr:63332/document/openurl?',
+  openURLPrefix: 'https://api.panist.fr/document/openurl?',
 
   // DOI pattern
   doiPattern: /\/\/((dx\.)?doi\.org|doi\.acm\.org|dx\.crossref\.org).*\/(10\..*(\/|%2(F|f)).*)/,
@@ -95,7 +103,7 @@ PANISTLinkInserter = {
   onDOMContentLoaded: function () {
     var rootElement = document.documentElement;
     // check if we have an html page
-    debug(document.contentType);
+    //debug(document.contentType);
     if (document.contentType === 'text/html') {
       var currentUrl = window.location.href;
       if (currentUrl.indexOf('grobid') === -1) {
@@ -161,7 +169,7 @@ PANISTLinkInserter = {
           }
           else {
             if (prefix && (text.match(this.regexSuffixPMIDPattern))) {
-              debug('regexSuffixPMIDPattern: ' + text);
+              //debug('regexSuffixPMIDPattern: ' + text);
               spanElm = document.createElement('span');
               spanElm.setAttribute('name', 'PANISTInserted');
               spanElm.innerHTML = text.replace(this.regexSuffixPMIDPattern,
@@ -172,7 +180,7 @@ PANISTLinkInserter = {
               prefix = false;
             }
             else if (text.match(this.regexPrefixPMIDPattern)) {
-              debug('regexPrefixPMIDPattern: ' + text);
+              //debug('regexPrefixPMIDPattern: ' + text);
               prefix = true;
             }
             else if (text.length > 0) {
@@ -300,9 +308,9 @@ PANISTLinkInserter = {
       }
     }
 
-    if (config.mustDebug && mask > 0) {
+    /*if (config.mustDebug && mask > 0) {
       debug('URL is ' + href + '\n mask value: ' + mask);
-    }
+    }*/
 
     return mask;
   },
@@ -404,15 +412,16 @@ PANISTLinkInserter = {
    * @param {Object} href
    */
   buildButton: function (href) {
-    debug('making link: ' + this.openURLPrefix + href + '&noredirect&sid=panist-browser-addon');
-
+    //debug('making link: ' + this.openURLPrefix + href + '&noredirect&sid=panist-browser-addon');
     var span = document.createElement('span');
     this.makeChild(href, document, span);
     return span;
   },
 
   createLink: function (resourceUrl) {
-
+    browser.runtime.sendMessage({
+      btnExist: true
+    });
     // set the added link, this will avoid an extra call to the OpenURL API and fix the access url
     var a = document.createElement('a');
     a.href = resourceUrl.replace('/original', '/pdf')
@@ -421,9 +430,7 @@ PANISTLinkInserter = {
     a.name = 'PANISTLink';
     a.className = 'panist-link';
     a.textContent = 'PANIST';
-    browser.runtime.sendMessage({
-      btnExist: true
-    });
+
     return a;
   },
 
@@ -462,8 +469,11 @@ PANISTLinkInserter = {
       return;
     }
     //Ajouter le champs grantee a l'url
+    //Sync call
+    //Call ajax on success
+    browser.storage.sync.get(['idc'], function (result) {
+    idc = result.idc.value;
     var requestUrl = PANISTLinkInserter.openURLPrefix + href + '&grantee=' + idc + '&noredirect';
-
     $.ajax(
       {
         url: requestUrl,
@@ -475,15 +485,14 @@ PANISTLinkInserter = {
             && parent.appendChild(
               PANISTLinkInserter.createLink(data.resourceUrl)
             );
-
-        },
+          },
         error: function (jqXHR, textStatus, errorThrown) {
-          logXhrError(requestUrl, errorThrown);
+         // logXhrError(requestUrl, errorThrown);
           if (
             textStatus === 'timeout'
             && this.tryCount < this.maxRetry
           ) {
-            info('Retry: ', this.url);
+            //info('Retry: ', this.url);
             this.tryCount++;
             return $.ajax(this);
           }
@@ -504,6 +513,7 @@ PANISTLinkInserter = {
         }
       }
     );
+    });
   },
 
   /**
@@ -530,30 +540,32 @@ PANISTLinkInserter = {
 };
 
 // We need to remove trace of the old way refresh Timestamp
-if (localStorage.getItem('last-refesh')) {
+if (localStorage.getItem('panist-last-refresh')) {
   localStorage.clear();
 }
 
 if (!localStorage.getLastRefresh()) {
   setTimeout(PANISTLinkInserter.onDOMContentLoaded, 0);
 } else {
-  info('Check data freshness');
+  //info('Check data freshness');
   $.ajax(
     {
-      url: 'http://vd-panist-api.intra.inist.fr:63332/properties',
+      url: 'https://api.panist.fr/properties',
       timeout: 5000,
       tryCount: 0,
       maxRetry: 1,
       success: function (data) {
+        console.log('test ok');
         if (data.corpus.lastUpdate > localStorage.getLastRefresh()) {
           localStorage.refresh();
         }
         PANISTLinkInserter.onDOMContentLoaded();
       },
       error: function (jqXHR, textStatus, errorThrown) {
+        console.log('test nok');
         error(textStatus, errorThrown);
         if (textStatus === 'timeout' && this.tryCount < this.maxRetry) {
-          info('Retry: ', this.url);
+          //info('Retry: ', this.url);
           this.tryCount++;
           return $.ajax(this);
         }

@@ -1,0 +1,38 @@
+a[name="PANISTLink"].panist-link {
+    background-color:#007bff !important;
+    border:1px solid transparent !important;
+    border-color:#007bff !important;
+    border-radius:.2rem !important;
+    color:#ffffff !important;
+    cursor:pointer !important;
+    display:inline-block !important;
+    font-weight:bold !important;
+    line-height:normal !important;
+    margin:1px 4px !important;
+    padding-bottom:1px !important;
+    padding-left:4px !important;
+    padding-right:4px !important;
+    padding-top:2px !important;
+    text-align:center !important;
+    vertical-align:middle !important;
+    text-decoration: none !important;
+    font-family: "ubuntu",sans-serif !important;
+    font-size: 11px !important;
+    text-shadow: 0.5px 0.5px #0050b5 !important;
+}
+
+[class^="gs"] > a[name="PANISTLink"] {
+    margin-left: 0;
+}
+
+a[name="PANISTLink"].panist-link:hover {
+    color: #fff !important;
+    background-color: #0069d9 !important;
+    border-color: #0062cc !important;
+}
+
+a[name="PANISTLink"].panist-link:active {
+    color: #fff !important;
+    background-color: #0062cc !important;
+    border-color: #005cbf !important;
+}

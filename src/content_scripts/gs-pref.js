@@ -1,8 +1,8 @@
 'use strict';
-
+var browser = chrome || browser;
 window.onunload = function(e) {
   	console.log('unload event');
-	  browser.runtime.sendMessage({text: 'done'});
+ 	browser.runtime.sendMessage({text: 'done'});
 };
 
 // we need to send a click to this 

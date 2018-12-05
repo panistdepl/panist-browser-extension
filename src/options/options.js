@@ -122,7 +122,7 @@ $(document).ready(function () {
   });
 
   $.ajax({
-    url: "https://panistdepl.github.io/browser-extension/22.11.18_11:28:10_listeInstitutions.json?date=" + Date.now()
+    url: "https://www-addons.panist.fr/listeInstitutions.json?date=" + Date.now()
   }).then(function (data) {
     $('.etabList').select2({
       data: data,

@@ -1,8 +1,9 @@
 {
   "applications": {
     "gecko": {
-      "id": "mounir.bouri@inist.fr",
-      "strict_min_version": "49.0a2"
+      "id": "panistdev@inist.fr",
+      "strict_min_version": "49.0a2",
+      "update_url": "https://addons.panist.fr/download/updates.json"
     }
   },
   "manifest_version": 2,

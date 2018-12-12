@@ -2,8 +2,6 @@
 
 A basic add-on for identifying dynamically PANIST resources in the browser pages.
 
-This extension is an adaptation of [panist-browser-addon](https://github.com/panist/panist-browser-addon), using "Web extensions" technology.
-
 At the present time, 2 versions are available : one for Mozilla Firefox, the other for Google Chrome.
 
 ## Functionalities
@@ -30,13 +28,13 @@ Currently:
 
 ## Examples
 
-* Example of links on a Wikipedia page: https://en.wikipedia.org/wiki/Superfluid_helium-4
+* Example of links on a Wikipedia page: https://fr.wikipedia.org/wiki/Virus_Zika
 
 ## How to install
 
 If you just want to install the extension, please visit https://addons.panist.fr and click on the big "Install" button.
 
-If you use Google Chrome, you can alose visit the [extension's homepage on the Chrome Web Store](https://chrome.google.com/webstore/detail/panist/fonjnfcanlbgnjgfhiocggldmpnhdhjg?hl=fr) and click on the "Add to Chrome" button.
+If you use Google Chrome, you can alose visit the [extension's homepage on the Chrome Web Store](https://chrome.google.com/webstore/detail/panist/ohfemcgmkmcgcidiiaoimjphkndbeckj?hl=fr) and click on the "Add to Chrome" button.
 
 ## Developers
 
@@ -51,4 +49,4 @@ How to run the web extension in developer mode with firefox (you need to install
 npm i
 npm run run
 ``` 
-It will open firefox on this page https://en.wikipedia.org/wiki/Superfluid_helium-4 with the panist-web-extension loaded. 
+It will open firefox on this page https://fr.wikipedia.org/wiki/Virus_Zika with the panist-web-extension loaded. 
